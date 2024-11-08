@@ -19,5 +19,31 @@
       }
     ],
     "EndpointName": "GetWeatherForecast"
+  },
+  {
+    "ContainingType": "ZERO.Controllers.ScraperWantgooController",
+    "Method": "Scraper",
+    "RelativePath": "zero/api/ScraperWantgoo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "differDays",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ZERO.Controllers.ScraperWantgooController",
+    "Method": "GETALL",
+    "RelativePath": "zero/api/ScraperWantgoo/GETALL",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   }
 ]

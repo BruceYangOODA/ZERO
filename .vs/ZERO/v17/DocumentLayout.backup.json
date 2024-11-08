@@ -1,7 +1,68 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\controllers\\scraperwantgoocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:controllers\\scraperwantgoocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\repository\\stockinforepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:repository\\stockinforepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\repository\\irepository\\istockinforepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:repository\\irepository\\istockinforepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\sevice\\iservice\\istockinfoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:sevice\\iservice\\istockinfoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\sevice\\stockinfoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:sevice\\stockinfoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\util\\utilscraper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:util\\utilscraper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\models\\jwt\\jwtconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:models\\jwt\\jwtconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\repository\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:repository\\baserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\models\\operationresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:models\\operationresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\models\\enum\\enum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:models\\enum\\enum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\sevice\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:sevice\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\database\\stockinfo\\quoteinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:database\\stockinfo\\quoteinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|c:\\users\\user\\documents\\backend\\zero\\database\\stockinfocontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4FFDF998-D44A-4484-BC99-DB91901FFD0B}|ZERO.csproj|solutionrelative:database\\stockinfocontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +70,202 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "StockInfoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Repository\\StockInfoRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\StockInfoRepository.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Repository\\StockInfoRepository.cs",
+              "RelativeToolTip": "Repository\\StockInfoRepository.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAAAkAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T05:11:22.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IStockInfoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Repository\\IRepository\\IStockInfoRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\IRepository\\IStockInfoRepository.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Repository\\IRepository\\IStockInfoRepository.cs",
+              "RelativeToolTip": "Repository\\IRepository\\IStockInfoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAwwAwAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T05:10:27.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OperationResult.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Models\\OperationResult.cs",
+              "RelativeDocumentMoniker": "Models\\OperationResult.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Models\\OperationResult.cs",
+              "RelativeToolTip": "Models\\OperationResult.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAgwAAAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T05:02:32.212Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IStockInfoService.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Sevice\\IService\\IStockInfoService.cs",
+              "RelativeDocumentMoniker": "Sevice\\IService\\IStockInfoService.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Sevice\\IService\\IStockInfoService.cs",
+              "RelativeToolTip": "Sevice\\IService\\IStockInfoService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwsAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T04:58:03.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "StockInfoService.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Sevice\\StockInfoService.cs",
+              "RelativeDocumentMoniker": "Sevice\\StockInfoService.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Sevice\\StockInfoService.cs",
+              "RelativeToolTip": "Sevice\\StockInfoService.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAADwvy0AAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T04:57:12.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T03:27:07.266Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ScraperWantgooController.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Controllers\\ScraperWantgooController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ScraperWantgooController.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Controllers\\ScraperWantgooController.cs",
+              "RelativeToolTip": "Controllers\\ScraperWantgooController.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAADwvysAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T03:10:01.817Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BaseRepository.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Repository\\BaseRepository.cs",
+              "RelativeDocumentMoniker": "Repository\\BaseRepository.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Repository\\BaseRepository.cs",
+              "RelativeToolTip": "Repository\\BaseRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T05:13:53.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "JWTConfig.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Models\\JWT\\JWTConfig.cs",
+              "RelativeDocumentMoniker": "Models\\JWT\\JWTConfig.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Models\\JWT\\JWTConfig.cs",
+              "RelativeToolTip": "Models\\JWT\\JWTConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvxIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T05:25:26.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UtilScraper.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Util\\UtilScraper.cs",
+              "RelativeDocumentMoniker": "Util\\UtilScraper.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Util\\UtilScraper.cs",
+              "RelativeToolTip": "Util\\UtilScraper.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAcwF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T05:07:47.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Enum.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Models\\Enum\\Enum.cs",
+              "RelativeDocumentMoniker": "Models\\Enum\\Enum.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Models\\Enum\\Enum.cs",
+              "RelativeToolTip": "Models\\Enum\\Enum.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwoAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T05:03:41.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BaseService.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Sevice\\BaseService.cs",
+              "RelativeDocumentMoniker": "Sevice\\BaseService.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Sevice\\BaseService.cs",
+              "RelativeToolTip": "Sevice\\BaseService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T03:32:31.029Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwkAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-08T03:26:37.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "QuoteInfo.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Database\\StockInfo\\QuoteInfo.cs",
+              "RelativeDocumentMoniker": "Database\\StockInfo\\QuoteInfo.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Database\\StockInfo\\QuoteInfo.cs",
+              "RelativeToolTip": "Database\\StockInfo\\QuoteInfo.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T03:24:24.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "StockInfoContext.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Database\\StockInfoContext.cs",
+              "RelativeDocumentMoniker": "Database\\StockInfoContext.cs",
+              "ToolTip": "C:\\Users\\user\\Documents\\BACKEND\\ZERO\\Database\\StockInfoContext.cs",
+              "RelativeToolTip": "Database\\StockInfoContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwEAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T03:22:16.992Z",
+              "EditorCaption": ""
             }
           ]
         }
