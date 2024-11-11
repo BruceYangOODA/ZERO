@@ -3,6 +3,7 @@ using ZERO.Sevice.IService;
 using ZERO.Repository.IRepository;
 using ZERO.Models;
 using ZERO.Util;
+using System.Transactions;
 
 namespace ZERO.Sevice
 {
@@ -45,8 +46,23 @@ namespace ZERO.Sevice
 
         public async Task<OperationResult<List<QuoteInfo>>> GetAllQuoteInfo() 
         {
-            OperationResult<List<QuoteInfo>> operationResult = await _stockRepository.GetAllQuoteInfo();
-            return operationResult;
+            try 
+            {
+                OperationResult<List<QuoteInfo>> operationResult = await _stockRepository.GetAllQuoteInfo();
+                //using var scope = new TransactionScope();
+                //var gg = operationResult.Result.First();
+                //await _stockRepository.InsertAsync(gg);
+                //scope.Complete();
+                return operationResult;
+            }
+            catch (Exception e) 
+            {
+                _logger.LogError($"StockService錯誤，StackTrace : {e.StackTrace}");
+                // _logger.LogError($"StockService錯誤，傳入參數，UserLoginPara : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"StockService錯誤，呼叫函式 : Scraper，錯誤訊息：{e.Message}");
+                return null;// new OperationResult<List<QuoteInfo>>();
+            }
+            
         }
     }
 }

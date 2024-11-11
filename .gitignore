@@ -1,2 +1,3 @@
-.vs/ZERO/FileContentIndex/*.vsidx
-
+.vs/
+bin/
+obj/

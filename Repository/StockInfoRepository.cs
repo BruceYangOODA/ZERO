@@ -4,6 +4,8 @@ using ZERO.Models.Enum;
 using ZERO.Models;
 using ZERO.Repository.IRepository;
 using System.Collections.Generic;
+using System.Transactions;
+using System.Linq.Expressions;
 
 namespace ZERO.Repository
 {
@@ -26,10 +28,10 @@ namespace ZERO.Repository
             return operationResult;
         }
         public async Task<OperationResult<List<QuoteInfo>>> GetAllQuoteInfo()
-        {
+        {    
             OperationResult<List<QuoteInfo>> operationResult = new();
             operationResult.Result = _context.QuoteInfos.ToList();
-            return operationResult;
+            return operationResult;            
         }
     }
 }

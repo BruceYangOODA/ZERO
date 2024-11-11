@@ -2,6 +2,9 @@
 
 namespace ZERO.Repository.IRepository
 {
+    /**
+     * NO USE
+     */
     public interface IBaseRepository<TEntity> where TEntity : class
     {
         #region 查詢

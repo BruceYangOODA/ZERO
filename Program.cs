@@ -5,6 +5,7 @@ using ZERO.Sevice;
 using ZERO.Sevice.IService;
 using ZERO.Repository;
 using ZERO.Repository.IRepository;
+using static Dapper.SqlMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
