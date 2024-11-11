@@ -52,15 +52,10 @@ namespace ZERO.Sevice
             try 
             {
                 OperationResult<IEnumerable<QuoteInfoDto>> operationResult = new();
-                IEnumerable<QuoteInfoDto> result = await _stockRepository.GetAllQuoteInfo();
-                IEnumerable<QuoteInfoDto> result2 = await _stockRepository.PostListQuoteInfo(result.ToList());
+                IEnumerable<QuoteInfoDto> result = await _stockRepository.GetAllQuoteInfo();                
 
-                operationResult.Result = result2;
-                operationResult.RequestResultCode = RequestResultCode.Success;
-                //using var scope = new TransactionScope();
-                //var gg = operationResult.Result.First();
-                //await _stockRepository.InsertAsync(gg);
-                //scope.Complete();
+                operationResult.Result = result;
+                operationResult.RequestResultCode = RequestResultCode.Success;                
                 return operationResult;
             }
             catch (Exception e) 
