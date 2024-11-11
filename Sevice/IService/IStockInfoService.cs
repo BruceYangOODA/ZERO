@@ -1,5 +1,6 @@
 ﻿using ZERO.Database.StockInfo;
 using ZERO.Models;
+using ZERO.Models.Dto.StockInfo;
 
 namespace ZERO.Sevice.IService
 {
@@ -9,6 +10,7 @@ namespace ZERO.Sevice.IService
         /// <param name="para"></param>
         /// <returns></returns>
         public Task<OperationResult<List<QuoteInfo>>> Scraper(string cookie, string signature, int differDays);
-        public Task<OperationResult<List<QuoteInfo>>> GetAllQuoteInfo();
+        public Task<OperationResult<IEnumerable<QuoteInfoDto>>> GetAllQuoteInfo();
+        public Task<OperationResult<List<QuoteInfoDto>>> PostListQuoteInfo(List<QuoteInfoDto> quoteInfos);
     }
 }

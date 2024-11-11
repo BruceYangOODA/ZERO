@@ -17,6 +17,31 @@ builder.Services.AddTransient<IStockInfoRepository, StockInfoRepository>();
 
 builder.Services.AddControllers();
 
+/*
+builder.Services.AddControllers(options =>
+{
+    // 添加全局過濾器
+    //options.Filters.Add<PermissionFilter>();
+
+    //可以讓Body吃純string
+    options.InputFormatters.Insert(0, new PlainTextInputFormatter());
+});
+*/
+/*#region 註冊CORS的Policy
+builder.Services.AddCors(options =>
+{
+    // Policy名稱是自訂的，可以自己改
+    options.AddPolicy("AllowCors", policy =>
+    {
+        //設定允許跨域的來源，有多個的話可以用 ',' 隔開
+        policy.WithOrigins(builder.Configuration.GetSection("AllowedOrigins").Value.Split(","))
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+    });
+});
+#endregion*/
 //配置DB連線 My_SQL
 if (builder.Configuration.GetConnectionString("SqlType").Equals("MySQL"))
 {

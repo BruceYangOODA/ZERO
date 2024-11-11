@@ -4,6 +4,9 @@ using ZERO.Repository.IRepository;
 using ZERO.Models;
 using ZERO.Util;
 using System.Transactions;
+using ZERO.Models.Dto.StockInfo;
+using ZERO.Models.Enum;
+using System.Data.SqlTypes;
 
 namespace ZERO.Sevice
 {
@@ -36,19 +39,24 @@ namespace ZERO.Sevice
             }
             catch (Exception e)
             {
-                _logger.LogError($"StockService錯誤，StackTrace : {e.StackTrace}");
-                // _logger.LogError($"StockService錯誤，傳入參數，UserLoginPara : {JsonConvert.SerializeObject(para)}");
-                _logger.LogError($"StockService錯誤，呼叫函式 : Scraper，錯誤訊息：{e.Message}");
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
                 return null;// new OperationResult<List<QuoteInfo>>();
             }
 
         }
 
-        public async Task<OperationResult<List<QuoteInfo>>> GetAllQuoteInfo() 
+        public async Task<OperationResult<IEnumerable<QuoteInfoDto>>> GetAllQuoteInfo() 
         {
             try 
             {
-                OperationResult<List<QuoteInfo>> operationResult = await _stockRepository.GetAllQuoteInfo();
+                OperationResult<IEnumerable<QuoteInfoDto>> operationResult = new();
+                IEnumerable<QuoteInfoDto> result = await _stockRepository.GetAllQuoteInfo();
+                IEnumerable<QuoteInfoDto> result2 = await _stockRepository.PostListQuoteInfo(result.ToList());
+
+                operationResult.Result = result2;
+                operationResult.RequestResultCode = RequestResultCode.Success;
                 //using var scope = new TransactionScope();
                 //var gg = operationResult.Result.First();
                 //await _stockRepository.InsertAsync(gg);
@@ -57,12 +65,31 @@ namespace ZERO.Sevice
             }
             catch (Exception e) 
             {
-                _logger.LogError($"StockService錯誤，StackTrace : {e.StackTrace}");
-                // _logger.LogError($"StockService錯誤，傳入參數，UserLoginPara : {JsonConvert.SerializeObject(para)}");
-                _logger.LogError($"StockService錯誤，呼叫函式 : Scraper，錯誤訊息：{e.Message}");
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
                 return null;// new OperationResult<List<QuoteInfo>>();
             }
             
+        }
+
+        public async Task<OperationResult<List<QuoteInfoDto>>> PostListQuoteInfo(List<QuoteInfoDto> quoteInfos) 
+        {
+            try 
+            {
+                OperationResult<List<QuoteInfoDto>> operationResult = new ();                
+                string theDate = quoteInfos.First().date;        
+                IEnumerable<QuoteInfoDto> quoteChecks = await _stockRepository.GetQuoteInfoByDate(theDate);
+                operationResult.Result = quoteChecks.ToList();
+                return operationResult;
+            }
+            catch (Exception e) 
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                return null;// new OperationResult<List<QuoteInfo>>();
+            }
         }
     }
 }
