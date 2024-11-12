@@ -36,12 +36,3 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 launchSetting.json
 appsetting.Localtest.json
-/bin/*
-/obj/*
-/.vs/*
-/bin/
-/obj/
-/.vs/
-/.vs
-/obj
-/bin

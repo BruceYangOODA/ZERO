@@ -7,6 +7,9 @@ using System.Transactions;
 using ZERO.Models.Dto.StockInfo;
 using ZERO.Models.Enum;
 using System.Data.SqlTypes;
+using Newtonsoft.Json;
+using MySql.Data.MySqlClient;
+using System.Diagnostics.Eventing.Reader;
 
 namespace ZERO.Sevice
 {
@@ -23,17 +26,60 @@ namespace ZERO.Sevice
         /// <summary> 爬蟲 </summary>
         /// <param name="para"></param>
         /// <returns></returns>
-        public async Task<OperationResult<List<QuoteInfo>>> Scraper(string cookie, string signature, int differDays)
+        public async Task<OperationResult<string>> Scraper(string cookie, string signature, int differDays)
         {
             try
             {
-                // OperationResult<List<QuoteInfo>> operationResult = new();
-                // operationResult.Result = _stockRepository.GetAllQuoteInfo();
-                // return operationResult;
+                string resultStr = "";
+                OperationResult<string> operationResult = new();                
+                operationResult.Result = "";            
 
-                HttpClient _httpClient = new HttpClient();
                 UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);
-                OperationResult<List<QuoteInfo>> operationResult = await utilScraper.GetHistoricalAllQuoteInfo();
+
+                OperationResult<List<QuoteInfoDto>> quoteInfoResult = await utilScraper.GetHistoricalAllQuoteInfo();
+                if (quoteInfoResult.RequestResultCode == RequestResultCode.Success) 
+                {
+                    
+                    operationResult.Result = operationResult.Result  + "已取得 QuoteInfo " + "\n";                    
+                    resultStr = await PostListQuoteInfo(quoteInfoResult.Result);
+                    operationResult.Result = operationResult.Result  + resultStr + "\n";                    
+                }
+                else 
+                {
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    operationResult.ErrorMessage = quoteInfoResult.ErrorMessage;
+                    return operationResult;
+                }
+                
+                
+                OperationResult<List<ForeignBuySellDto>> foreignBuySellResult = await utilScraper.GetAllForeignBuySell();
+                if (foreignBuySellResult.RequestResultCode == RequestResultCode.Success)
+                {
+                    operationResult.Result = operationResult.Result + "已取得 ForeignBuySell " + "\n";
+                    resultStr = await PostListForeinBuySell(foreignBuySellResult.Result);
+                    operationResult.Result = operationResult.Result + resultStr + "\n";
+                }
+                else
+                {
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    operationResult.ErrorMessage = foreignBuySellResult.ErrorMessage;
+                    return operationResult;
+                }
+                
+                OperationResult<List<DealerBuySellDto>> dealerBuySellResult = await utilScraper.GetAllDealerBuySell();
+                if (dealerBuySellResult.RequestResultCode == RequestResultCode.Success)
+                {
+                    operationResult.Result = operationResult.Result + "已取得 DealerBuySell " + "\n";
+                    resultStr = await PostListDealerBuySell(dealerBuySellResult.Result);
+                    operationResult.Result = operationResult.Result + resultStr + "\n";
+                }
+                else
+                {
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    operationResult.ErrorMessage = dealerBuySellResult.ErrorMessage;
+                    return operationResult;
+                }
+
                 return operationResult;
 
             }
@@ -52,7 +98,7 @@ namespace ZERO.Sevice
             try 
             {
                 OperationResult<IEnumerable<QuoteInfoDto>> operationResult = new();
-                IEnumerable<QuoteInfoDto> result = await _stockRepository.GetAllQuoteInfo();                
+                IEnumerable<QuoteInfoDto> result = await _stockRepository.QueryAllQuoteInfo();                
 
                 operationResult.Result = result;
                 operationResult.RequestResultCode = RequestResultCode.Success;                
@@ -68,22 +114,55 @@ namespace ZERO.Sevice
             
         }
 
-        public async Task<OperationResult<List<QuoteInfoDto>>> PostListQuoteInfo(List<QuoteInfoDto> quoteInfos) 
+        public async Task<string> PostListQuoteInfo(List<QuoteInfoDto> dtos) 
         {
             try 
             {
-                OperationResult<List<QuoteInfoDto>> operationResult = new ();                
-                string theDate = quoteInfos.First().date;        
-                IEnumerable<QuoteInfoDto> quoteChecks = await _stockRepository.GetQuoteInfoByDate(theDate);
-                operationResult.Result = quoteChecks.ToList();
-                return operationResult;
+                var result = await _stockRepository.UpdateListQuoteInfo(dtos);
+                
+                return $"已更新 QuoteInfo {dtos.First().date}";
+               
             }
             catch (Exception e) 
             {
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;// new OperationResult<List<QuoteInfo>>();
+                return null;
+            }
+        }
+        public async Task<string> PostListForeinBuySell(List<ForeignBuySellDto> dtos)
+        {
+            try
+            {
+                var result = await _stockRepository.UpdateListForeignBuySell(dtos);
+
+                return $"已更新 ForeignBuySell {dtos.First().date}";
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                return null;
+            }
+        }
+        public async Task<string> PostListDealerBuySell(List<DealerBuySellDto> dtos)
+        {
+            try
+            {
+                var result = await _stockRepository.UpdateListDealerBuySell(dtos);
+
+                return $"已更新 DealerBuySell {dtos.First().date}";
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                return null;
             }
         }
     }

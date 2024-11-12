@@ -8,6 +8,8 @@ namespace ZERO.Database.StockInfo
     {
         [Required]
         public string id { get; set; }
+        [Required]
+        public string date { get; set; }
 
         public float open { get; set; }
 
@@ -20,8 +22,7 @@ namespace ZERO.Database.StockInfo
         public int volume { get; set; }
 
         public float millionAmount { get; set; }
-        [Required]
-        public string date { get; set; }
+
         public DateTime? createAt { get; set; }
     }
 }

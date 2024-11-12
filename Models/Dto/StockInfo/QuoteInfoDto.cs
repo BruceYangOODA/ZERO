@@ -3,7 +3,7 @@ using ZERO.Database.StockInfo;
 
 namespace ZERO.Models.Dto.StockInfo
 {
-    public class QuoteInfoDto: QuoteInfo
+    public class QuoteInfoDto
     {
         
         public string id { get; set; }
@@ -21,18 +21,19 @@ namespace ZERO.Models.Dto.StockInfo
         public float millionAmount { get; set; }        
         public string date { get; set; }
         public DateTime? createAt { get; set; }
-        public QuoteInfoDto(QuoteInfo q) 
+        public QuoteInfoDto(QuoteInfo t) 
         {
-            id = q.id;
-            open = q.open;
-            high = q.high;
-            low = q.low;
-            close = q.close;
-            volume = q.volume;
-            millionAmount = q.millionAmount;
-            date = q.date;
-            createAt = q.createAt;
+            id = t.id;
+            open = t.open;
+            high = t.high;
+            low = t.low;
+            close = t.close;
+            volume = t.volume;
+            millionAmount = t.millionAmount;
+            date = t.date;
+            createAt = t.createAt;
         }
+        public QuoteInfoDto() { }
 
 
     }
