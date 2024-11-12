@@ -13,7 +13,9 @@ namespace ZERO.Util
         // https://www.wantgoo.com/stock/institutional-investors/foreign/net-buy-sell-rank
         HttpClient _httpClient = new HttpClient();
         long _unixTimestamp = 0;
+        long _unixTimestampBefore = 0;
         string _date = "";
+        string _dateBefore = "";
         public UtilScraper(string cookie, string signature, int differDays)
         {
             const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36";
@@ -41,12 +43,16 @@ namespace ZERO.Util
 
             var tagetDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 16, 0, 0).AddDays(differDays - 1);
             _unixTimestamp = (long)(tagetDay - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-
-            string[] _days = tagetDay.AddDays(1).ToString(new CultureInfo("zh-tw")).Split(' ')[0].Split('/');
+            _unixTimestampBefore = _unixTimestamp - 86400000;
+            string[] _days = tagetDay.ToString(new CultureInfo("zh-tw")).Split(' ')[0].Split('/');
+            _dateBefore = _dateBefore + _days[0] + (int.Parse(_days[1]) > 9 ? _days[1] : "0" + _days[1]) + (int.Parse(_days[2]) > 9 ? _days[2] : "0" + _days[2]);
+            _days = tagetDay.AddDays(1).ToString(new CultureInfo("zh-tw")).Split(' ')[0].Split('/');
             _date = _date + _days[0] + (int.Parse(_days[1]) > 9 ? _days[1] : "0" + _days[1]) + (int.Parse(_days[2]) > 9 ? _days[2] : "0" + _days[2]);
 
             Console.WriteLine("_unixTimestamp" + _unixTimestamp);
             Console.WriteLine("_date" + _date);
+            Console.WriteLine("_unixTimestampBefore" + _unixTimestampBefore);
+            Console.WriteLine("_dateBefore" + _dateBefore);
         }
 
         public async Task<OperationResult<List<QuoteInfoDto>>> GetHistoricalAllQuoteInfo()
@@ -92,10 +98,6 @@ namespace ZERO.Util
                     q.date = _date;
                     return Char.IsDigit(q.id[0]);
                 });
-
-                Console.WriteLine("quoteInfoList Count "+quoteInfoList.Count);
-
-
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = quoteInfoList;
 
@@ -117,12 +119,10 @@ namespace ZERO.Util
                 HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetHistoricalAllQuoteInfo";
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetAllForeignBuySell";
                     operationResult.RequestResultCode = RequestResultCode.Failed;
                     return operationResult;
                 }
-
-                Console.WriteLine("StatusCode " + response.StatusCode);
 
                 HttpContent content = response.Content;
   
@@ -137,19 +137,16 @@ namespace ZERO.Util
                 {
                     item.date = _date;
                 });
-                Console.WriteLine("====buySellList====");
-                Console.WriteLine(JsonConvert.SerializeObject(buySellList));
+               // Console.WriteLine(JsonConvert.SerializeObject(buySellList));
 
                 apiUrl = "https://www.wantgoo.com/stock/institutional-investors/foreign/all-net-sell-rank-data?tradeDate="+ _unixTimestamp + "&accumulationDays=1&market=Listed,OTC";
                 response = await _httpClient.GetAsync(apiUrl);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetHistoricalAllQuoteInfo";
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetAllForeignBuySell";
                     operationResult.RequestResultCode = RequestResultCode.Failed;
                     return operationResult;
                 }
-
-                Console.WriteLine("StatusCode " + response.StatusCode);
 
                 content = response.Content;
 
@@ -164,8 +161,7 @@ namespace ZERO.Util
                 {
                     item.date = _date;
                 });
-                Console.WriteLine("====sellBuyList====");
-                Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
+                //Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = buySellList.Concat(sellBuyList).ToList();
                 return operationResult;
@@ -188,12 +184,10 @@ namespace ZERO.Util
                 HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetHistoricalAllQuoteInfo";
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetAllDealerBuySell";
                     operationResult.RequestResultCode = RequestResultCode.Failed;
                     return operationResult;
                 }
-
-                Console.WriteLine("StatusCode " + response.StatusCode);
 
                 HttpContent content = response.Content;
 
@@ -208,19 +202,16 @@ namespace ZERO.Util
                 {
                     item.date = _date;
                 });
-                Console.WriteLine("====buySellList====");
-                Console.WriteLine(JsonConvert.SerializeObject(buySellList));
+                //Console.WriteLine(JsonConvert.SerializeObject(buySellList));
 
                 apiUrl = "https://www.wantgoo.com/stock/institutional-investors/dealer/all-net-sell-rank-data?tradeDate=" + _unixTimestamp + "&accumulationDays=1&market=Listed,OTC";
                 response = await _httpClient.GetAsync(apiUrl);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetHistoricalAllQuoteInfo";
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetAllDealerBuySell";
                     operationResult.RequestResultCode = RequestResultCode.Failed;
                     return operationResult;
                 }
-
-                Console.WriteLine("StatusCode " + response.StatusCode);
 
                 content = response.Content;
 
@@ -235,8 +226,8 @@ namespace ZERO.Util
                 {
                     item.date = _date;
                 });
-                Console.WriteLine("====sellBuyList====");
-                Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
+
+                //Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = buySellList.Concat(sellBuyList).ToList();
                 return operationResult;
@@ -249,6 +240,117 @@ namespace ZERO.Util
             }
 
         }
+
+        public async Task<OperationResult<List<TrustBuySellDto>>> GetAllTrustBuySell()
+        {
+            OperationResult<List<TrustBuySellDto>> operationResult = new();
+            try
+            {
+                string apiUrl = "https://www.wantgoo.com/stock/institutional-investors/investment-trust/all-net-buy-rank-data?tradeDate=" + _unixTimestamp + "&accumulationDays=1&market=Listed,OTC";
+                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetHistoricalAllQuoteInfo";
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    return operationResult;
+                }
+
+                HttpContent content = response.Content;
+
+                List<TrustBuySellDto>? buySellList = await content.ReadFromJsonAsync<List<TrustBuySellDto>>();
+                if (buySellList == null)
+                {
+                    buySellList = new List<TrustBuySellDto>();
+                    operationResult.RequestResultCode = RequestResultCode.NotFound;
+                    return operationResult;
+                }
+                buySellList.ForEach((item) =>
+                {
+                    item.date = _date;
+                });     
+                
+                //Console.WriteLine(JsonConvert.SerializeObject(buySellList));
+
+                apiUrl = "https://www.wantgoo.com/stock/institutional-investors/investment-trust/all-net-sell-rank-data?tradeDate=" + _unixTimestamp + "&accumulationDays=1&market=Listed,OTC";
+                response = await _httpClient.GetAsync(apiUrl);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetAllTrustBuySell";
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    return operationResult;
+                }
+
+                content = response.Content;
+
+                List<TrustBuySellDto>? sellBuyList = await content.ReadFromJsonAsync<List<TrustBuySellDto>>();
+                if (sellBuyList == null)
+                {
+                    sellBuyList = new List<TrustBuySellDto>();
+                    operationResult.RequestResultCode = RequestResultCode.NotFound;
+                    return operationResult;
+                }
+                sellBuyList.ForEach((item) =>
+                {
+                    item.date = _date;
+                });            
+                //Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
+                operationResult.RequestResultCode = RequestResultCode.Success;
+                operationResult.Result = buySellList.Concat(sellBuyList).ToList();
+                return operationResult;
+            }
+            catch (Exception e)
+            {
+                operationResult.RequestResultCode = RequestResultCode.Failed;
+                operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature" + e.Message;
+                return operationResult;
+            }
+
+        }
+        public async Task<OperationResult<List<VolumeDataDto>>> GetAllVolumeData()
+        {
+            OperationResult<List<VolumeDataDto>> operationResult = new();
+            try
+            {
+                string apiUrl = "https://www.wantgoo.com/stock/day-trading/all-volume-data?tradeDate=" + _unixTimestampBefore;
+                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+                if (response.StatusCode != HttpStatusCode.OK)
+                {
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetAllVolumeData";
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    return operationResult;
+                }
+
+                HttpContent content = response.Content;
+
+                List<VolumeDataDto>? dtoList = await content.ReadFromJsonAsync<List<VolumeDataDto>>();
+                if (dtoList == null)
+                {
+                    dtoList = new List<VolumeDataDto>();
+                    operationResult.RequestResultCode = RequestResultCode.NotFound;
+                    return operationResult;
+                }
+
+                dtoList.ForEach((dto) => {
+                    dto.theDate = _dateBefore;
+                });
+
+                Console.WriteLine(JsonConvert.SerializeObject(dtoList));
+
+                operationResult.RequestResultCode = RequestResultCode.Success;
+                operationResult.Result = dtoList;
+
+                return operationResult;
+            }
+            catch (Exception e)
+            {
+                operationResult.RequestResultCode = RequestResultCode.Failed;
+                operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature" + e.Message;
+                return operationResult;
+            }
+        }
+
+
+        
 
 
     }

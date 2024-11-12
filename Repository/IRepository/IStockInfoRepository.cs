@@ -15,8 +15,10 @@ namespace ZERO.Repository.IRepository
         public Task<QuoteInfoDto> InsertQuoteInfo(QuoteInfoDto qid);
         public Task<QuoteInfoDto> UpdateQuoteInfo(QuoteInfoDto qid);        
 
-        public Task<List<ForeignBuySellDto>> UpdateListForeignBuySell(List<ForeignBuySellDto> fbsdtos);
-        public Task<List<DealerBuySellDto>> UpdateListDealerBuySell(List<DealerBuySellDto> fbsdtos);
+        public Task<List<ForeignBuySellDto>> UpdateListForeignBuySell(List<ForeignBuySellDto> dtos);
+        public Task<List<DealerBuySellDto>> UpdateListDealerBuySell(List<DealerBuySellDto> dtos);
+        public Task<List<TrustBuySellDto>> UpdateListTrustBuySell(List<TrustBuySellDto> dtos);
+        public Task<List<VolumeDataDto>> UpdateListVolumeData(List<VolumeDataDto> dtos);
 
     }
 }

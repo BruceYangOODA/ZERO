@@ -19,9 +19,12 @@ namespace ZERO.Database.StockInfo
 
         public float close { get; set; }
 
-        public int volume { get; set; }
+        public int volume { get; set; } // 總成交量
 
         public float millionAmount { get; set; }
+        public float? buyAmount { get; set; } 
+        public float? sellAmount { get; set; }
+        public float? sharesVolume { get; set; } // 當沖量
 
         public DateTime? createAt { get; set; }
     }

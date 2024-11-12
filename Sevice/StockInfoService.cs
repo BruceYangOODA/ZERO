@@ -35,7 +35,7 @@ namespace ZERO.Sevice
                 operationResult.Result = "";            
 
                 UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);
-
+                /*
                 OperationResult<List<QuoteInfoDto>> quoteInfoResult = await utilScraper.GetHistoricalAllQuoteInfo();
                 if (quoteInfoResult.RequestResultCode == RequestResultCode.Success) 
                 {
@@ -79,7 +79,36 @@ namespace ZERO.Sevice
                     operationResult.ErrorMessage = dealerBuySellResult.ErrorMessage;
                     return operationResult;
                 }
-
+                */
+                /*
+                OperationResult<List<TrustBuySellDto>> trustBuySellResult = await utilScraper.GetAllTrustBuySell();
+                if (trustBuySellResult.RequestResultCode == RequestResultCode.Success)
+                {
+                    operationResult.Result = operationResult.Result + "已取得 TrustBuySell " + "\n";
+                    resultStr = await PostListTrustBuySell(trustBuySellResult.Result);
+                    operationResult.Result = operationResult.Result + resultStr + "\n";
+                }
+                else
+                {
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    operationResult.ErrorMessage = trustBuySellResult.ErrorMessage;
+                    return operationResult;
+                }
+                
+                OperationResult<List<VolumeDataDto>> volumeDataResult = await utilScraper.GetAllVolumeData();
+                if (volumeDataResult.RequestResultCode == RequestResultCode.Success)
+                {
+                    operationResult.Result = operationResult.Result + "已取得 VolumeData " + "\n";
+                    resultStr = await PostListVolumeData(volumeDataResult.Result);
+                    operationResult.Result = operationResult.Result + resultStr + "\n";
+                }
+                else
+                {
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    operationResult.ErrorMessage = volumeDataResult.ErrorMessage;
+                    return operationResult;
+                }
+                */
                 return operationResult;
 
             }
@@ -155,6 +184,40 @@ namespace ZERO.Sevice
                 var result = await _stockRepository.UpdateListDealerBuySell(dtos);
 
                 return $"已更新 DealerBuySell {dtos.First().date}";
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                return null;
+            }
+        }
+        public async Task<string> PostListTrustBuySell(List<TrustBuySellDto> dtos)
+        {
+            try
+            {
+                var result = await _stockRepository.UpdateListTrustBuySell(dtos);
+
+                return $"已更新 TrustBuySell {dtos.First().date}";
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                return null;
+            }
+        }
+        public async Task<string> PostListVolumeData(List<VolumeDataDto> dtos)
+        {
+            try
+            {
+                var result = await _stockRepository.UpdateListVolumeData(dtos);
+
+                return $"已更新 VolumeData ";
 
             }
             catch (Exception e)

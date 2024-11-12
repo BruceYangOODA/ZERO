@@ -8,6 +8,7 @@ namespace ZERO.Models.Dto.StockInfo
         
         public string id { get; set; }
 
+        public string date { get; set; }
         public float open { get; set; }
 
         public float high { get; set; }
@@ -19,7 +20,9 @@ namespace ZERO.Models.Dto.StockInfo
         public int volume { get; set; }
 
         public float millionAmount { get; set; }        
-        public string date { get; set; }
+        public float? buyAmount { get; set; }
+        public float? sellAmount { get; set; }
+        public float? sharesVolume { get; set; } // 當沖量
         public DateTime? createAt { get; set; }
         public QuoteInfoDto(QuoteInfo t) 
         {
@@ -31,6 +34,9 @@ namespace ZERO.Models.Dto.StockInfo
             volume = t.volume;
             millionAmount = t.millionAmount;
             date = t.date;
+            buyAmount = t.buyAmount;
+            sellAmount = t.sellAmount;
+            sharesVolume = t.sharesVolume;
             createAt = t.createAt;
         }
         public QuoteInfoDto() { }
