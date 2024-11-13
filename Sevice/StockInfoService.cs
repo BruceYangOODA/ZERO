@@ -35,7 +35,7 @@ namespace ZERO.Sevice
                 operationResult.Result = "";            
 
                 UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);
-                /*
+                
                 OperationResult<List<QuoteInfoDto>> quoteInfoResult = await utilScraper.GetHistoricalAllQuoteInfo();
                 if (quoteInfoResult.RequestResultCode == RequestResultCode.Success) 
                 {
@@ -79,8 +79,7 @@ namespace ZERO.Sevice
                     operationResult.ErrorMessage = dealerBuySellResult.ErrorMessage;
                     return operationResult;
                 }
-                */
-                /*
+                
                 OperationResult<List<TrustBuySellDto>> trustBuySellResult = await utilScraper.GetAllTrustBuySell();
                 if (trustBuySellResult.RequestResultCode == RequestResultCode.Success)
                 {
@@ -108,7 +107,7 @@ namespace ZERO.Sevice
                     operationResult.ErrorMessage = volumeDataResult.ErrorMessage;
                     return operationResult;
                 }
-                */
+                
                 return operationResult;
 
             }
