@@ -147,21 +147,7 @@ namespace ZERO.Sevice
                     operationResult.ErrorMessage = dealerBuySellResult.ErrorMessage;
                     return operationResult;
                 }
-       
-                OperationResult<List<VolumeDataDto>> volumeDataResult = await utilScraper.GetAllVolumeData();
-                if (volumeDataResult.RequestResultCode == RequestResultCode.Success)
-                {
-                    operationResult.Result = operationResult.Result + "已取得 VolumeData " + "\n";
-                    resultStr = await PostListVolumeData(volumeDataResult.Result);
-                    operationResult.Result = operationResult.Result + resultStr + "\n";
-                }
-                else
-                {
-                    operationResult.RequestResultCode = RequestResultCode.Failed;
-                    operationResult.ErrorMessage = volumeDataResult.ErrorMessage;
-                    return operationResult;
-                }
-
+      
                 return operationResult;
 
             }
@@ -174,7 +160,7 @@ namespace ZERO.Sevice
             }
 
         }
-        /*
+        
         public async Task<OperationResult<string>> ScraperThree(string cookie, string signature, int differDays)
         {
             try
@@ -184,65 +170,7 @@ namespace ZERO.Sevice
                 OperationResult<string> operationResult = new();
                 operationResult.Result = "";
 
-                UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);
-
-                OperationResult<List<QuoteInfoDto>> quoteInfoResult = await utilScraper.GetHistoricalAllQuoteInfo();
-                if (quoteInfoResult.RequestResultCode == RequestResultCode.Success)
-                {
-
-                    operationResult.Result = operationResult.Result + "已取得 QuoteInfo " + "\n";
-                    resultStr = await PostListQuoteInfo(quoteInfoResult.Result);
-                    operationResult.Result = operationResult.Result + resultStr + "\n";
-                }
-                else
-                {
-                    operationResult.RequestResultCode = RequestResultCode.Failed;
-                    operationResult.ErrorMessage = quoteInfoResult.ErrorMessage;
-                    return operationResult;
-                }
-
-
-                OperationResult<List<ForeignBuySellDto>> foreignBuySellResult = await utilScraper.GetAllForeignBuySell();
-                if (foreignBuySellResult.RequestResultCode == RequestResultCode.Success)
-                {
-                    operationResult.Result = operationResult.Result + "已取得 ForeignBuySell " + "\n";
-                    resultStr = await PostListForeinBuySell(foreignBuySellResult.Result);
-                    operationResult.Result = operationResult.Result + resultStr + "\n";
-                }
-                else
-                {
-                    operationResult.RequestResultCode = RequestResultCode.Failed;
-                    operationResult.ErrorMessage = foreignBuySellResult.ErrorMessage;
-                    return operationResult;
-                }
-
-                OperationResult<List<DealerBuySellDto>> dealerBuySellResult = await utilScraper.GetAllDealerBuySell();
-                if (dealerBuySellResult.RequestResultCode == RequestResultCode.Success)
-                {
-                    operationResult.Result = operationResult.Result + "已取得 DealerBuySell " + "\n";
-                    resultStr = await PostListDealerBuySell(dealerBuySellResult.Result);
-                    operationResult.Result = operationResult.Result + resultStr + "\n";
-                }
-                else
-                {
-                    operationResult.RequestResultCode = RequestResultCode.Failed;
-                    operationResult.ErrorMessage = dealerBuySellResult.ErrorMessage;
-                    return operationResult;
-                }
-
-                OperationResult<List<TrustBuySellDto>> trustBuySellResult = await utilScraper.GetAllTrustBuySell();
-                if (trustBuySellResult.RequestResultCode == RequestResultCode.Success)
-                {
-                    operationResult.Result = operationResult.Result + "已取得 TrustBuySell " + "\n";
-                    resultStr = await PostListTrustBuySell(trustBuySellResult.Result);
-                    operationResult.Result = operationResult.Result + resultStr + "\n";
-                }
-                else
-                {
-                    operationResult.RequestResultCode = RequestResultCode.Failed;
-                    operationResult.ErrorMessage = trustBuySellResult.ErrorMessage;
-                    return operationResult;
-                }
+                UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);    
 
                 OperationResult<List<VolumeDataDto>> volumeDataResult = await utilScraper.GetAllVolumeData();
                 if (volumeDataResult.RequestResultCode == RequestResultCode.Success)
@@ -270,7 +198,7 @@ namespace ZERO.Sevice
             }
 
         }
-        */
+        
         public async Task<OperationResult<IEnumerable<QuoteInfoDto>>> GetAllQuoteInfo() 
         {
             try 
