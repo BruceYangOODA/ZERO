@@ -13,5 +13,6 @@ namespace ZERO.Database
         public DbSet<QuoteInfo> QuoteInfos { get; set; }
         public DbSet<ForeignBuySell> ForeignBuySells { get; set; }
         public DbSet<DealerBuySell> DealerBuySells { get; set; }
+        public DbSet<TrustBuySell> TrustBuySells { get; set; }
     }
 }

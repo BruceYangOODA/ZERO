@@ -52,7 +52,6 @@ namespace ZERO.Sevice
                     return operationResult;
                 }
 
-
                 OperationResult<List<ForeignBuySellDto>> foreignBuySellResult = await utilScraper.GetAllForeignBuySell();
                 if (foreignBuySellResult.RequestResultCode == RequestResultCode.Success)
                 {
@@ -67,6 +66,8 @@ namespace ZERO.Sevice
                     return operationResult;
                 }
 
+
+                /*
                 OperationResult<List<TrustBuySellDto>> trustBuySellResult = await utilScraper.GetAllTrustBuySell();
                 if (trustBuySellResult.RequestResultCode == RequestResultCode.Success)
                 {
@@ -81,7 +82,6 @@ namespace ZERO.Sevice
                     return operationResult;
                 }
 
-                /*
                 OperationResult<List<DealerBuySellDto>> dealerBuySellResult = await utilScraper.GetAllDealerBuySell();
                 if (dealerBuySellResult.RequestResultCode == RequestResultCode.Success)
                 {
@@ -132,7 +132,22 @@ namespace ZERO.Sevice
                 OperationResult<string> operationResult = new();
                 operationResult.Result = "";
 
-                UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);                               
+                UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);
+
+                OperationResult<List<TrustBuySellDto>> trustBuySellResult = await utilScraper.GetAllTrustBuySell();
+                if (trustBuySellResult.RequestResultCode == RequestResultCode.Success)
+                {
+                    operationResult.Result = operationResult.Result + "已取得 TrustBuySell " + "\n";
+                    resultStr = await PostListTrustBuySell(trustBuySellResult.Result);
+                    operationResult.Result = operationResult.Result + resultStr + "\n";
+                }
+                else
+                {
+                    operationResult.RequestResultCode = RequestResultCode.Failed;
+                    operationResult.ErrorMessage = trustBuySellResult.ErrorMessage;
+                    return operationResult;
+                }
+
 
                 OperationResult<List<DealerBuySellDto>> dealerBuySellResult = await utilScraper.GetAllDealerBuySell();
                 if (dealerBuySellResult.RequestResultCode == RequestResultCode.Success)
@@ -305,5 +320,20 @@ namespace ZERO.Sevice
                 return null;
             }
         }
+
+        public async Task<string> UpdateUnitTimestamp(string date) 
+        {
+            try 
+            {
+                await _stockRepository.UpdateUnitTimestamp(date);
+                return "已更新";
+            }
+            catch (Exception e) 
+            {
+                throw;
+            }
+        }
+
+        // public async Task<string> GetDayTradingRef() { }
     }
 }

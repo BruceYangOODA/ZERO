@@ -33,10 +33,18 @@ namespace ZERO.Repository
         /// <param name="para"></param>
         /// <returns></returns>        
         public async Task<IEnumerable<QuoteInfoDto>> QueryAllQuoteInfo()
-        {   
-            IEnumerable<QuoteInfoDto> result = new List<QuoteInfoDto>();
-            result = _context.QuoteInfos.ToList().ConvertAll<QuoteInfoDto>(q => new QuoteInfoDto(q));
-            return result;            
+        {
+            IEnumerable<QuoteInfoDto> result;
+            string sql = @"
+                    SELECT * FROM stock_info.quote_info LIMIT 0,200;
+                ";
+            using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+            {
+                await sqlConnection.OpenAsync();
+                var temp = await sqlConnection.QueryAsync<QuoteInfo>(sql);
+                result = temp.ToList().ConvertAll<QuoteInfoDto>(q => new QuoteInfoDto(q));
+            }
+            return result;
         }
         public async Task<IEnumerable<QuoteInfoDto>> QueryQuoteInfoByDate(string theDate)
         {
@@ -147,8 +155,8 @@ namespace ZERO.Repository
             {
                 QuoteInfoDto result;
                 string sql = @"
-                    INSERT INTO stock_info.quote_info (id, date, open, high, low, close, millionAmount, volume) 
-                    VALUES (@id, @date, @open, @high, @low, @close, @millionAmount, @volume);             
+                    INSERT INTO stock_info.quote_info (id, date, open, high, low, close, millionAmount, volume, unixTimestamp) 
+                    VALUES (@id, @date, @open, @high, @low, @close, @millionAmount, @volume, @unixTimestamp);             
                 ";
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
@@ -173,20 +181,18 @@ namespace ZERO.Repository
                 QuoteInfoDto result;
                 string sql = @"
                     update stock_info.quote_info 
-                    set open = @open, high = @high, low = @low, close = @close, volume = @volume, millionAmount = @millionAmount
+                    set open = @open, high = @high, low = @low, close = @close, volume = @volume, millionAmount = @millionAmount, unixTimestamp = @unixTimestamp
                     where id = @id and date = @date;                    
-                ";
-              
+                ";         
+
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
                     await sqlConnection.OpenAsync();                    
-                    var temp = await sqlConnection.ExecuteReaderAsync(sql, qid);
-                    Console.WriteLine("temp" + JsonConvert.SerializeObject(temp));
-                  
+                    var temp = await sqlConnection.ExecuteReaderAsync(sql, qid);                    
+
                     return null;
                    // result = temp.ToList().ConvertAll<QuoteInfoDto>(q => new QuoteInfoDto(q)).First();
-                }
-                return result;
+                }               
             }
             catch (Exception e) 
             {
@@ -206,12 +212,12 @@ namespace ZERO.Repository
                 List<QuoteInfoDto> checkList = quoteChecks.ToList();
                 string updateSql = @"
                     update stock_info.quote_info 
-                    set open = @open, high = @high, low = @low, close = @close, volume = @volume, millionAmount = @millionAmount
+                    set open = @open, high = @high, low = @low, close = @close, volume = @volume, millionAmount = @millionAmount, unixTimestamp = @unixTimestamp
                     where id = @id and date = @date;                    
                 ";
                 string insertSql = @"
-                    INSERT INTO stock_info.quote_info (id, date, open, high, low, close, millionAmount, volume) 
-                    VALUES (@id, @date, @open, @high, @low, @close, @millionAmount, @volume);             
+                    INSERT INTO stock_info.quote_info (id, date, open, high, low, close, millionAmount, volume, unixTimestamp) 
+                    VALUES (@id, @date, @open, @high, @low, @close, @millionAmount, @volume, @unixTimestamp);             
                 ";
 
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -223,8 +229,8 @@ namespace ZERO.Repository
                         {
                             var find = checkList.Find((item) => { return dto.id == item.id && dto.date == item.date; });
                             if (find != null)
-                            {
-                                await sqlConnection.ExecuteAsync(updateSql, find);
+                            {                                
+                                await sqlConnection.ExecuteAsync(updateSql, dto);
                             }
                             else
                             {
@@ -255,12 +261,12 @@ namespace ZERO.Repository
                 List< ForeignBuySellDto> checkList = foreignChecks.ToList();
                 string updateSql = @"
                     update stock_info.foreign_buy_sell 
-                    set buy = @buy, sell = @sell
+                    set buy = @buy, sell = @sell, unixTimestamp = @unixTimestamp
                     where investrueId = @investrueId and date = @date;                    
                 ";
                 string insertSql = @"
-                    INSERT INTO stock_info.foreign_buy_sell (investrueId, date, buy, sell) 
-                    VALUES (@investrueId, @date, @buy, @sell);             
+                    INSERT INTO stock_info.foreign_buy_sell (investrueId, date, buy, sell, unixTimestamp) 
+                    VALUES (@investrueId, @date, @buy, @sell, @unixTimestamp);             
                 ";
 
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -273,7 +279,7 @@ namespace ZERO.Repository
                             var find = checkList.Find((item) => { return dto.investrueId == item.investrueId && dto.date == item.date; });
                             if (find != null)
                             {
-                                await sqlConnection.ExecuteAsync(updateSql, find);
+                                await sqlConnection.ExecuteAsync(updateSql, dto);
                             }
                             else
                             {
@@ -304,12 +310,12 @@ namespace ZERO.Repository
                 List<DealerBuySellDto> checkList = foreignChecks.ToList();
                 string updateSql = @"
                     update stock_info.dealer_buy_sell 
-                    set buy = @buy, sell = @sell
+                    set buy = @buy, sell = @sell, unixTimestamp = @unixTimestamp
                     where investrueId = @investrueId and date = @date;                    
                 ";
                 string insertSql = @"
-                    INSERT INTO stock_info.dealer_buy_sell (investrueId, date, buy, sell) 
-                    VALUES (@investrueId, @date, @buy, @sell);             
+                    INSERT INTO stock_info.dealer_buy_sell (investrueId, date, buy, sell, unixTimestamp) 
+                    VALUES (@investrueId, @date, @buy, @sell, @unixTimestamp);             
                 ";
 
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -322,7 +328,7 @@ namespace ZERO.Repository
                             var find = checkList.Find((item) => { return dto.investrueId == item.investrueId && dto.date == item.date; });
                             if (find != null)
                             {
-                                await sqlConnection.ExecuteAsync(updateSql, find);
+                                await sqlConnection.ExecuteAsync(updateSql, dto);
                             }
                             else
                             {
@@ -353,12 +359,12 @@ namespace ZERO.Repository
                 List<TrustBuySellDto> checkList = foreignChecks.ToList();
                 string updateSql = @"
                     update stock_info.trust_buy_sell 
-                    set buy = @buy, sell = @sell
+                    set buy = @buy, sell = @sell, unixTimestamp = @unixTimestamp
                     where investrueId = @investrueId and date = @date;                    
                 ";
                 string insertSql = @"
-                    INSERT INTO stock_info.trust_buy_sell (investrueId, date, buy, sell) 
-                    VALUES (@investrueId, @date, @buy, @sell);             
+                    INSERT INTO stock_info.trust_buy_sell (investrueId, date, buy, sell, unixTimestamp) 
+                    VALUES (@investrueId, @date, @buy, @sell, @unixTimestamp);             
                 ";
 
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -371,7 +377,7 @@ namespace ZERO.Repository
                             var find = checkList.Find((item) => { return dto.investrueId == item.investrueId && dto.date == item.date; });
                             if (find != null)
                             {
-                                await sqlConnection.ExecuteAsync(updateSql, find);
+                                await sqlConnection.ExecuteAsync(updateSql, dto);
                             }
                             else
                             {
@@ -423,6 +429,116 @@ namespace ZERO.Repository
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
                 return null;
+            }
+        }
+
+        public async Task<string> UpdateUnitTimestamp(string date) 
+        {
+            try 
+            {
+                int year = int.Parse(date.Substring(0, 4));
+                int month = int.Parse(date.Substring(4, 2));
+                int day = int.Parse(date.Substring(6, 2));
+                if (year < 1970 || month > 12 || day > 31)
+                {
+                    return "日期格式錯誤 西元年月日 ex 20190123:";
+                }
+                var tagetDay = new DateTime(year, month, day, 16, 0, 0, DateTimeKind.Utc).AddDays(-1);
+                long unixTimestamp = (long)(tagetDay - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+
+                string updateSql = @"
+                    update stock_info.quote_info 
+                    set unixTimestamp = @unixTimestamp
+                    where id = @id and date = @date;                     
+                ";
+
+                List<QuoteInfoDto> quoteChecks = (await QueryQuoteInfoByDate(date)).ToList();
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+                    {
+                        await sqlConnection.OpenAsync();
+                        foreach (var dto in quoteChecks)
+                        {
+                            dto.unixTimestamp = unixTimestamp;
+                            Console.WriteLine(JsonConvert.SerializeObject(dto));
+                            await sqlConnection.ExecuteAsync(updateSql, dto);
+                        }
+                    }
+                    scope.Complete();
+                }
+
+                Console.WriteLine("已更新 QueryQuoteInfoByDate");
+                Console.WriteLine(JsonConvert.SerializeObject(quoteChecks));
+
+                updateSql = @"
+                    update stock_info.dealer_buy_sell 
+                    set unixTimestamp = @unixTimestamp
+                    where investrueId = @investrueId and date = @date;                     
+                ";
+
+                List<DealerBuySellDto> dealerChecks = (await QueryDealerBuySellByDate(date)).ToList();
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+                    {
+                        await sqlConnection.OpenAsync();
+                        foreach (var dto in dealerChecks)
+                        {
+                            dto.unixTimestamp = unixTimestamp;
+                            await sqlConnection.ExecuteAsync(updateSql, dto);
+                        }
+                    }
+                    scope.Complete();
+                }
+
+                updateSql = @"
+                    update stock_info.foreign_buy_sell 
+                    set unixTimestamp = @unixTimestamp
+                    where investrueId = @investrueId and date = @date;                     
+                ";
+
+                List<ForeignBuySellDto> foreignChecks = (await QueryForeignBuySellByDate(date)).ToList();
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+                    {
+                        await sqlConnection.OpenAsync();
+                        foreach (var dto in foreignChecks)
+                        {
+                            dto.unixTimestamp = unixTimestamp;
+                            await sqlConnection.ExecuteAsync(updateSql, dto);
+                        }
+                    }
+                    scope.Complete();
+                }
+
+                updateSql = @"
+                    update stock_info.trust_buy_sell 
+                    set unixTimestamp = @unixTimestamp
+                    where investrueId = @investrueId and date = @date;                     
+                ";
+
+                List<TrustBuySellDto> trustChecks = (await QueryTrustBuySellByDate(date)).ToList();
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+                    {
+                        await sqlConnection.OpenAsync();
+                        foreach (var dto in trustChecks)
+                        {
+                            dto.unixTimestamp = unixTimestamp;
+                            await sqlConnection.ExecuteAsync(updateSql, dto);
+                        }
+                    }
+                    scope.Complete();
+                }
+
+                return unixTimestamp.ToString();
+            }
+            catch (Exception e) 
+            {
+                throw;
             }
         }
 

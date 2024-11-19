@@ -96,8 +96,10 @@ namespace ZERO.Util
                 quoteInfoList = quoteInfoList.FindAll(q =>
                 {
                     q.date = _date;
+                    q.unixTimestamp = _unixTimestamp;
                     return Char.IsDigit(q.id[0]);
                 });
+                
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = quoteInfoList;
 
@@ -136,8 +138,8 @@ namespace ZERO.Util
                 buySellList.ForEach((item) => 
                 {
                     item.date = _date;
-                });
-               // Console.WriteLine(JsonConvert.SerializeObject(buySellList));
+                    item.unixTimestamp = _unixTimestamp;
+                });               
 
                 apiUrl = "https://www.wantgoo.com/stock/institutional-investors/foreign/all-net-sell-rank-data?tradeDate="+ _unixTimestamp + "&accumulationDays=1&market=Listed,OTC";
                 response = await _httpClient.GetAsync(apiUrl);
@@ -160,8 +162,9 @@ namespace ZERO.Util
                 sellBuyList.ForEach((item) =>
                 {
                     item.date = _date;
+                    item.unixTimestamp = _unixTimestamp;
                 });
-                //Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
+                
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = buySellList.Concat(sellBuyList).ToList();
                 return operationResult;
@@ -201,8 +204,8 @@ namespace ZERO.Util
                 buySellList.ForEach((item) =>
                 {
                     item.date = _date;
-                });
-                //Console.WriteLine(JsonConvert.SerializeObject(buySellList));
+                    item.unixTimestamp = _unixTimestamp;
+                });                
 
                 apiUrl = "https://www.wantgoo.com/stock/institutional-investors/dealer/all-net-sell-rank-data?tradeDate=" + _unixTimestamp + "&accumulationDays=1&market=Listed,OTC";
                 response = await _httpClient.GetAsync(apiUrl);
@@ -225,9 +228,9 @@ namespace ZERO.Util
                 sellBuyList.ForEach((item) =>
                 {
                     item.date = _date;
+                    item.unixTimestamp = _unixTimestamp;
                 });
-
-                //Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
+                
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = buySellList.Concat(sellBuyList).ToList();
                 return operationResult;
@@ -250,7 +253,7 @@ namespace ZERO.Util
                 HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetHistoricalAllQuoteInfo";
+                    operationResult.ErrorMessage = "無法取得網頁資料 刷新 Cookie & X-Client-Signature _ GetAllTrustBuySell";
                     operationResult.RequestResultCode = RequestResultCode.Failed;
                     return operationResult;
                 }
@@ -267,9 +270,8 @@ namespace ZERO.Util
                 buySellList.ForEach((item) =>
                 {
                     item.date = _date;
+                    item.unixTimestamp = _unixTimestamp;
                 });     
-                
-                //Console.WriteLine(JsonConvert.SerializeObject(buySellList));
 
                 apiUrl = "https://www.wantgoo.com/stock/institutional-investors/investment-trust/all-net-sell-rank-data?tradeDate=" + _unixTimestamp + "&accumulationDays=1&market=Listed,OTC";
                 response = await _httpClient.GetAsync(apiUrl);
@@ -292,8 +294,9 @@ namespace ZERO.Util
                 sellBuyList.ForEach((item) =>
                 {
                     item.date = _date;
+                    item.unixTimestamp = _unixTimestamp;
                 });            
-                //Console.WriteLine(JsonConvert.SerializeObject(sellBuyList));
+                
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = buySellList.Concat(sellBuyList).ToList();
                 return operationResult;
@@ -333,8 +336,6 @@ namespace ZERO.Util
                 dtoList.ForEach((dto) => {
                     dto.theDate = _dateBefore;
                 });
-
-                Console.WriteLine(JsonConvert.SerializeObject(dtoList));
 
                 operationResult.RequestResultCode = RequestResultCode.Success;
                 operationResult.Result = dtoList;

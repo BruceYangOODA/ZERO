@@ -12,6 +12,7 @@ namespace ZERO.Database.StockInfo
         public string date { get; set; }
         public int buy { get; set; }
         public int sell { get; set; }
+        public long? unixTimestamp { get; set; }
         public DateTime? createAt { get; set; }
     }
 }

@@ -19,6 +19,6 @@ namespace ZERO.Repository.IRepository
         public Task<List<DealerBuySellDto>> UpdateListDealerBuySell(List<DealerBuySellDto> dtos);
         public Task<List<TrustBuySellDto>> UpdateListTrustBuySell(List<TrustBuySellDto> dtos);
         public Task<List<VolumeDataDto>> UpdateListVolumeData(List<VolumeDataDto> dtos);
-
+        public Task<string> UpdateUnitTimestamp(string date);
     }
 }

@@ -17,5 +17,7 @@ namespace ZERO.Sevice.IService
         public Task<string> PostListForeinBuySell(List<ForeignBuySellDto> dtos);
         public Task<string> PostListTrustBuySell(List<TrustBuySellDto> dtos);
         public Task<string> PostListVolumeData(List<VolumeDataDto> dtos);
+
+        public Task<string> UpdateUnitTimestamp(string date);
     }
 }

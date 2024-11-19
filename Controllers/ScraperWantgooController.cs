@@ -142,22 +142,6 @@ namespace ZERO.Controllers
             }
 
         }
-
-        [HttpGet("GETALL")]
-        //[SwaggerResponse(200, "Success", typeof(List<StockInfo>))]
-        // [SwaggerResponse(400, "Bad Request", typeof(string))]
-        // [SwaggerResponse(404, "Not Found", typeof(string))]
-        public async Task<IActionResult> GETALL() {
-            OperationResult<IEnumerable<QuoteInfoDto>> operationResult = await _stockInfoService.GetAllQuoteInfo();
-            return operationResult.RequestResultCode switch
-            {
-                RequestResultCode.Success => Ok(operationResult.Result),
-                RequestResultCode.Failed => BadRequest(operationResult.ErrorMessage),
-                RequestResultCode.NotFound => NotFound(operationResult.ErrorMessage),
-                RequestResultCode.Conflict => Conflict(operationResult.ErrorMessage),
-                RequestResultCode.InternalServerError => throw new Exception(operationResult.ErrorMessage),
-                _ => throw new NotImplementedException()
-            };
-        }
+       
     }
 }

@@ -25,7 +25,7 @@ namespace ZERO.Database.StockInfo
         public float? buyAmount { get; set; } 
         public float? sellAmount { get; set; }
         public float? sharesVolume { get; set; } // 當沖量
-
+        public long? unixTimestamp { get; set; }
         public DateTime? createAt { get; set; }
     }
 }

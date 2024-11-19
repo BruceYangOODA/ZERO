@@ -23,6 +23,7 @@ namespace ZERO.Models.Dto.StockInfo
         public float? buyAmount { get; set; }
         public float? sellAmount { get; set; }
         public float? sharesVolume { get; set; } // 當沖量
+        public long? unixTimestamp { get; set; }
         public DateTime? createAt { get; set; }
         public QuoteInfoDto(QuoteInfo t) 
         {
@@ -38,6 +39,7 @@ namespace ZERO.Models.Dto.StockInfo
             sellAmount = t.sellAmount;
             sharesVolume = t.sharesVolume;
             createAt = t.createAt;
+            unixTimestamp = t.unixTimestamp;
         }
         public QuoteInfoDto() { }
 
