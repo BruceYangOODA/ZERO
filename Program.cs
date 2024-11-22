@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.FileProviders;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,6 +67,8 @@ builder.Services.Configure<JWTConfig>(builder.Configuration.GetSection("JWTConfi
 
 builder.Services.AddTransient<IStockInfoService, StockInfoService>();
 builder.Services.AddTransient<IStockInfoRepository, StockInfoRepository>();
+builder.Services.AddTransient<IDayTradingService, DayTradingService>();
+builder.Services.AddTransient<IDayTradingRepository, DayTradingRepository>();
 
 #endregion
 
@@ -231,6 +234,18 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    //Show more of the model by default
+    c.DefaultModelExpandDepth(2);
+
+    //Close all of the major nodes
+    c.DocExpansion(DocExpansion.List);
+
+    //Show the example by default
+    c.DefaultModelRendering(ModelRendering.Example);
+
+    //Turn on Try it by default
+    c.EnableTryItOutByDefault();
+    c.ConfigObject.AdditionalItems.Add("syntaxHighlight", false);
 });
 
 //允許使用URL存取靜態資源

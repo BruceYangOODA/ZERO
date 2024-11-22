@@ -7,8 +7,8 @@
         public string? theDate { get; set; }
         //public DateTime date { get; set; }
         
-        public float buyAmount { get; set; }
-        public float sellAmount { get; set; }
-        public float sharesVolume { get; set; } // 當沖量
+        public long buyAmount { get; set; }
+        public long sellAmount { get; set; }
+        public long sharesVolume { get; set; } // 當沖量
     }
 }

@@ -10,9 +10,9 @@ namespace ZERO.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { }
 
-        public DbSet<QuoteInfo> QuoteInfos { get; set; }
-        public DbSet<ForeignBuySell> ForeignBuySells { get; set; }
-        public DbSet<DealerBuySell> DealerBuySells { get; set; }
-        public DbSet<TrustBuySell> TrustBuySells { get; set; }
+       // public DbSet<QuoteInfo> QuoteInfos { get; set; }
+      //  public DbSet<ForeignBuySell> ForeignBuySells { get; set; }
+      //  public DbSet<DealerBuySell> DealerBuySells { get; set; }
+      //  public DbSet<TrustBuySell> TrustBuySells { get; set; }
     }
 }

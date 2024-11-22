@@ -19,12 +19,12 @@ namespace ZERO.Database.StockInfo
 
         public float close { get; set; }
 
-        public int volume { get; set; } // 總成交量
+        public long volume { get; set; } // 總成交量
 
-        public float millionAmount { get; set; }
-        public float? buyAmount { get; set; } 
-        public float? sellAmount { get; set; }
-        public float? sharesVolume { get; set; } // 當沖量
+        public long millionAmount { get; set; }
+        public long? buyAmount { get; set; } 
+        public long? sellAmount { get; set; }
+        public long? sharesVolume { get; set; } // 當沖量
         public long? unixTimestamp { get; set; }
         public DateTime? createAt { get; set; }
     }

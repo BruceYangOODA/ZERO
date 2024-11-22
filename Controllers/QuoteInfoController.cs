@@ -17,17 +17,19 @@ namespace ZERO.Controllers
     //[EnableCors("AllowCors")]    
     [Route("zero/api/[controller]")]
     [ApiController]
-    public class QuoteInfoControler : BaseController<QuoteInfoControler>
+    public class QuoteInfoController : BaseController<QuoteInfoController>
     {
         private readonly IStockInfoService _stockInfoService;
-        public QuoteInfoControler(IStockInfoService stockService)
+        private readonly IDayTradingService _dayTradingService;
+        public QuoteInfoController(IStockInfoService stockService, IDayTradingService dayTradingService)
         {
             _stockInfoService = stockService;
+            _dayTradingService = dayTradingService;
         }
 
         [HttpGet("GetUnitTimestamp")]
         [SwaggerResponse(200, "Success", typeof(string))]
-        public async Task<string> GetUnitTimestamp(string date) 
+        public string GetUnitTimestamp(string date) 
         {
             try 
             {
@@ -79,12 +81,13 @@ namespace ZERO.Controllers
         }*/
 
         [HttpGet("GetAllQuoteInfo")]
-        //[SwaggerResponse(200, "Success", typeof(List<StockInfo>))]
-        // [SwaggerResponse(400, "Bad Request", typeof(string))]
-        // [SwaggerResponse(404, "Not Found", typeof(string))]
+        [SwaggerResponse(200, "Success", typeof(List<QuoteInfoDto>))]
+        [SwaggerResponse(400, "Bad Request", typeof(string))]
+        [SwaggerResponse(404, "Not Found", typeof(string))]
         public async Task<IActionResult> GetAllQuoteInfo()
         {
             OperationResult<IEnumerable<QuoteInfoDto>> operationResult = await _stockInfoService.GetAllQuoteInfo();
+            Console.WriteLine("********");
             return operationResult.RequestResultCode switch
             {
                 RequestResultCode.Success => Ok(operationResult.Result),
@@ -95,17 +98,20 @@ namespace ZERO.Controllers
                 _ => throw new NotImplementedException()
             };
         }
+       
 
-        [HttpGet("GetDayTradingRef")]
-        //[SwaggerResponse(200, "Success", typeof(List<StockInfo>))]
-        // [SwaggerResponse(400, "Bad Request", typeof(string))]
-        // [SwaggerResponse(404, "Not Found", typeof(string))]
-        public async Task<IActionResult> GetDayTradingRef(string cookie, string signature, int differDays = 0)        
+        [HttpGet("GetFiveDayQuoteInfo")]
+        [SwaggerResponse(200, "Success", typeof(List<FiveQuoteInfoDto>))]
+        [SwaggerResponse(400, "Bad Request", typeof(string))]
+        [SwaggerResponse(404, "Not Found", typeof(string))]
+        public async Task<IActionResult> GetFiveDayQuoteInfo(string date = "")
         {
             try
-            {
+            {                              
+
                 // https://www.wantgoo.com/stock/institutional-investors/foreign/net-buy-sell-rank
-                OperationResult<string> operationResult = new();
+                OperationResult<List<FiveQuoteInfoDto>> operationResult = await _dayTradingService.GetFiveDayQuoteInfo(date);
+                Console.WriteLine("********");
                 return operationResult.RequestResultCode switch
                 {
                     RequestResultCode.Success => Ok(operationResult.Result),
@@ -116,7 +122,7 @@ namespace ZERO.Controllers
                     _ => throw new NotImplementedException()
                 };
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Logger.LogError(e.Message);
                 Logger.LogError(e.StackTrace);

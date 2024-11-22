@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
-using static Dapper.SqlMapper;
+//using static Dapper.SqlMapper;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.VisualBasic;
@@ -36,13 +36,14 @@ namespace ZERO.Repository
         {
             IEnumerable<QuoteInfoDto> result;
             string sql = @"
-                    SELECT * FROM stock_info.quote_info LIMIT 0,200;
+                    SELECT * FROM stock_info.quote_info qi where date='20241120';
                 ";
             using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
             {
                 await sqlConnection.OpenAsync();
-                var temp = await sqlConnection.QueryAsync<QuoteInfo>(sql);
-                result = temp.ToList().ConvertAll<QuoteInfoDto>(q => new QuoteInfoDto(q));
+                var temp = await sqlConnection.QueryAsync<QuoteInfoDto>(sql);
+                result = temp;
+                Console.WriteLine("result" + result.Count());             
             }
             return result;
         }
@@ -58,8 +59,8 @@ namespace ZERO.Repository
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
                     await sqlConnection.OpenAsync();
-                    var temp = await sqlConnection.QueryAsync<QuoteInfo>(sql, new { theDate = theDate });
-                    result = temp.ToList().ConvertAll<QuoteInfoDto>(q => new QuoteInfoDto(q));
+                    var temp = await sqlConnection.QueryAsync<QuoteInfoDto>(sql, new { theDate = theDate });
+                    result = temp;
                 }                
                 return result;
             }
@@ -149,7 +150,7 @@ namespace ZERO.Repository
             }
         }
 
-        public async Task<QuoteInfoDto> InsertQuoteInfo(QuoteInfoDto qid) 
+        public async Task<QuoteInfoDto> InsertQuoteInfo(QuoteInfoDto dto) 
         {
             try 
             {
@@ -161,9 +162,11 @@ namespace ZERO.Repository
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
                     await sqlConnection.OpenAsync();
-                    var temp = await sqlConnection.QueryAsync<QuoteInfo>(sql, qid);
-                    result = temp.ToList().ConvertAll<QuoteInfoDto>(q => new QuoteInfoDto(q)).First();
+                    var temp = (await sqlConnection.QueryAsync<QuoteInfoDto>(sql, dto)).FirstOrDefault();
+                    result = temp;
+                    Console.WriteLine($"新增資料 QuoteInfo {dto.date} {dto.id} ");
                 }
+
                 return result;
             }
             catch (Exception e) 
@@ -174,7 +177,7 @@ namespace ZERO.Repository
                 return null;
             }
         }
-        public async Task<QuoteInfoDto> UpdateQuoteInfo(QuoteInfoDto qid) 
+        public async Task<QuoteInfoDto> UpdateQuoteInfo(QuoteInfoDto dto) 
         {
             try 
             {
@@ -188,10 +191,10 @@ namespace ZERO.Repository
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
                     await sqlConnection.OpenAsync();                    
-                    var temp = await sqlConnection.ExecuteReaderAsync(sql, qid);                    
-
+                    var temp = await sqlConnection.ExecuteReaderAsync(sql, dto);
+                    Console.WriteLine($"更新資料 QuoteInfo {dto.date} {dto.id} ");
                     return null;
-                   // result = temp.ToList().ConvertAll<QuoteInfoDto>(q => new QuoteInfoDto(q)).First();
+                   
                 }               
             }
             catch (Exception e) 
@@ -231,10 +234,12 @@ namespace ZERO.Repository
                             if (find != null)
                             {                                
                                 await sqlConnection.ExecuteAsync(updateSql, dto);
+                                Console.WriteLine($"更新資料 QuoteInfo {dto.date} {dto.id} ");
                             }
                             else
                             {
                                 await sqlConnection.ExecuteAsync(insertSql, dto);
+                                Console.WriteLine($"新增資料 QuoteInfo {dto.date} {dto.id} ");
                             }
 
                         }
@@ -280,10 +285,12 @@ namespace ZERO.Repository
                             if (find != null)
                             {
                                 await sqlConnection.ExecuteAsync(updateSql, dto);
+                                Console.WriteLine($"更新資料 foreign_buy_sell {dto.date} {dto.investrueId} ");
                             }
                             else
                             {
                                 await sqlConnection.ExecuteAsync(insertSql, dto);
+                                Console.WriteLine($"新增資料 foreign_buy_sell {dto.date} {dto.investrueId} ");
                             }
 
                         }
@@ -329,10 +336,12 @@ namespace ZERO.Repository
                             if (find != null)
                             {
                                 await sqlConnection.ExecuteAsync(updateSql, dto);
+                                Console.WriteLine($"更新資料 dealer_buy_sell {dto.date} {dto.investrueId} ");
                             }
                             else
                             {
                                 await sqlConnection.ExecuteAsync(insertSql, dto);
+                                Console.WriteLine($"新增資料 dealer_buy_sell {dto.date} {dto.investrueId} ");
                             }
 
                         }
@@ -378,10 +387,12 @@ namespace ZERO.Repository
                             if (find != null)
                             {
                                 await sqlConnection.ExecuteAsync(updateSql, dto);
+                                Console.WriteLine($"更新資料 trust_buy_sell {dto.date} {dto.investrueId} ");
                             }
                             else
                             {
                                 await sqlConnection.ExecuteAsync(insertSql, dto);
+                                Console.WriteLine($"新增資料 trust_buy_sell {dto.date} {dto.investrueId} ");
                             }
 
                         }
