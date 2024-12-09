@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ZERO.Database.StockInfo;
-
-namespace ZERO.Models.Dto.StockInfo
+﻿namespace ZERO.Models.Dto.StockInfo
 {
     public class QuoteInfoDto
     {
-        
+        public QuoteInfoDto() { }
+
         public string? id { get; set; }
 
         public string? date { get; set; }
@@ -16,14 +14,18 @@ namespace ZERO.Models.Dto.StockInfo
         public float? low { get; set; }
 
         public float? close { get; set; }
+        public float? amplitude { get; set; } // 振幅
+        public float? fluctuation { get; set; } // 漲幅 fluctuation
+
+        public float? sharesRate { get; set; } // 當沖率
 
         public long? volume { get; set; }
 
         public float? millionAmount { get; set; }        
-        public float? buyAmount { get; set; }
-        public float? sellAmount { get; set; }
-        public float? sharesVolume { get; set; } // 當沖量
-        public long? unixTimestamp { get; set; }
+        public long? buyAmount { get; set; }
+        public long? sellAmount { get; set; }
+        public long? sharesVolume { get; set; } // 當沖量
+        public long unixTimestamp { get; set; }
         public DateTime? createAt { get; set; }
         public long? foreignBuy { get; set; }
         public long? foreignSell { get; set; }
@@ -31,9 +33,6 @@ namespace ZERO.Models.Dto.StockInfo
         public long? trustSell { get; set; }
         public long? dealerBuy { get; set; }
         public long? dealerSell { get; set; }
-
-        public QuoteInfoDto() { }
-
 
     }
 }

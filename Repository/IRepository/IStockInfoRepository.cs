@@ -11,8 +11,10 @@ namespace ZERO.Repository.IRepository
         /// <returns></returns>
         public Task<List<QuoteInfoDto>> UpdateListQuoteInfo(List<QuoteInfoDto> stockInfos);
         public Task<IEnumerable<QuoteInfoDto>> QueryAllQuoteInfo();
+
         public Task<IEnumerable<QuoteInfoDto>> QueryQuoteInfoByDate(string date);
         public Task<QuoteInfoDto> InsertQuoteInfo(QuoteInfoDto qid);
+        public Task<TwTradeDayDto> InsertOrUpdateTwTradeDayDto(TwTradeDayDto dto);
         public Task<QuoteInfoDto> UpdateQuoteInfo(QuoteInfoDto qid);        
 
         public Task<List<ForeignBuySellDto>> UpdateListForeignBuySell(List<ForeignBuySellDto> dtos);

@@ -18,4 +18,12 @@
         InternalServerError
     }
 
+    public enum MovingAverage 
+    {
+        MA1 = 1,
+        MA5 = 5,
+        MA10 = 10,
+        MA20 = 20
+    }
+
 }

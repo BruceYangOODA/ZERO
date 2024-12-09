@@ -10,11 +10,12 @@ using ZERO.Models.Enum;
 using System.Net;
 using System.Collections.Generic;
 using Swashbuckle.AspNetCore.Annotations;
+using ZERO.Util;
 
 namespace ZERO.Controllers
 {
     //[Authorize]
-    //[EnableCors("AllowCors")]    
+    [EnableCors("AllowCors")]    
     [Route("zero/api/[controller]")]
     [ApiController]
     public class QuoteInfoController : BaseController<QuoteInfoController>
@@ -100,34 +101,6 @@ namespace ZERO.Controllers
         }
        
 
-        [HttpGet("GetFiveDayQuoteInfo")]
-        [SwaggerResponse(200, "Success", typeof(List<FiveQuoteInfoDto>))]
-        [SwaggerResponse(400, "Bad Request", typeof(string))]
-        [SwaggerResponse(404, "Not Found", typeof(string))]
-        public async Task<IActionResult> GetFiveDayQuoteInfo(string date = "")
-        {
-            try
-            {                              
-
-                // https://www.wantgoo.com/stock/institutional-investors/foreign/net-buy-sell-rank
-                OperationResult<List<FiveQuoteInfoDto>> operationResult = await _dayTradingService.GetFiveDayQuoteInfo(date);
-                Console.WriteLine("********");
-                return operationResult.RequestResultCode switch
-                {
-                    RequestResultCode.Success => Ok(operationResult.Result),
-                    RequestResultCode.Failed => BadRequest(operationResult.ErrorMessage),
-                    RequestResultCode.NotFound => NotFound(operationResult.ErrorMessage),
-                    RequestResultCode.Conflict => Conflict(operationResult.ErrorMessage),
-                    RequestResultCode.InternalServerError => throw new Exception(operationResult.ErrorMessage),
-                    _ => throw new NotImplementedException()
-                };
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e.Message);
-                Logger.LogError(e.StackTrace);
-                throw;
-            }
-        }
+        
     }
 }

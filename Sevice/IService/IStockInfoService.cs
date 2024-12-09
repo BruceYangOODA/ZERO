@@ -13,6 +13,7 @@ namespace ZERO.Sevice.IService
         public Task<OperationResult<string>> ScraperTwo(string cookie, string signature, int differDays);
         public Task<OperationResult<string>> ScraperThree(string cookie, string signature, int differDays);
         public Task<OperationResult<IEnumerable<QuoteInfoDto>>> GetAllQuoteInfo();
+        public Task<TwTradeDayDto> PostTwTradeDate(TwTradeDayDto dto);
         public Task<string> PostListQuoteInfo(List<QuoteInfoDto> dtos);
         public Task<string> PostListForeinBuySell(List<ForeignBuySellDto> dtos);
         public Task<string> PostListTrustBuySell(List<TrustBuySellDto> dtos);

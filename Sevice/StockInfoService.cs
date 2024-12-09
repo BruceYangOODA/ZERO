@@ -38,9 +38,13 @@ namespace ZERO.Sevice
                 UtilScraper utilScraper = new UtilScraper(cookie, signature, differDays);
                 
                 OperationResult<List<QuoteInfoDto>> quoteInfoResult = await utilScraper.GetHistoricalAllQuoteInfo();
+                TwTradeDayDto dayDto = new();
+                QuoteInfoDto qiDto = quoteInfoResult.Result.ToList().First();
+                dayDto.date = qiDto.date;
+                dayDto.unixTimestamp = qiDto.unixTimestamp;
+                await PostTwTradeDate(dayDto);
                 if (quoteInfoResult.RequestResultCode == RequestResultCode.Success) 
                 {
-
                     operationResult.Result = operationResult.Result  + "已取得 QuoteInfo " + "\n";                    
                     resultStr = await PostListQuoteInfo(quoteInfoResult.Result);
                     operationResult.Result = operationResult.Result  + resultStr + "\n";                    
@@ -119,7 +123,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;// new OperationResult<List<QuoteInfo>>();
+                throw;
             }
 
         }
@@ -171,7 +175,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;// new OperationResult<List<QuoteInfo>>();
+                throw;
             }
 
         }
@@ -209,7 +213,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;// new OperationResult<List<QuoteInfo>>();
+                throw;
             }
 
         }
@@ -230,9 +234,25 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;// new OperationResult<List<QuoteInfo>>();
+                throw;
             }
             
+        }
+
+        public async Task<TwTradeDayDto> PostTwTradeDate(TwTradeDayDto dto) 
+        {
+            try 
+            {
+                await _stockRepository.InsertOrUpdateTwTradeDayDto(dto);
+                return dto;
+            }
+            catch (Exception e) 
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                throw;
+            }
         }
 
         public async Task<string> PostListQuoteInfo(List<QuoteInfoDto> dtos) 
@@ -249,7 +269,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
         public async Task<string> PostListForeinBuySell(List<ForeignBuySellDto> dtos)
@@ -266,7 +286,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
         public async Task<string> PostListDealerBuySell(List<DealerBuySellDto> dtos)
@@ -283,7 +303,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
         public async Task<string> PostListTrustBuySell(List<TrustBuySellDto> dtos)
@@ -300,7 +320,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
         public async Task<string> PostListVolumeData(List<VolumeDataDto> dtos)
@@ -317,7 +337,7 @@ namespace ZERO.Sevice
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 

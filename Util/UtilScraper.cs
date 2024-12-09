@@ -335,6 +335,7 @@ namespace ZERO.Util
 
                 dtoList.ForEach((dto) => {
                     dto.theDate = _dateBefore;
+                    dto.sharesVolume = dto.sharesVolume / 1000;
                 });
 
                 operationResult.RequestResultCode = RequestResultCode.Success;

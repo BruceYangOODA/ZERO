@@ -17,36 +17,49 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.VisualBasic;
 using System.Security.Cryptography;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.Json.Nodes;
 
 namespace ZERO.Repository
 {
     public class StockInfoRepository : BaseRepository<StockInfoRepository>, IStockInfoRepository
     {
-        private readonly ILogger<StockInfoRepository> _logger;
-        protected readonly StockInfoContext _context;
+       // private readonly ILogger<StockInfoRepository> _logger;
+       // protected readonly StockInfoContext _context;
         public StockInfoRepository(IConfiguration configuration, ILogger<StockInfoRepository> logger, StockInfoContext context) : base(configuration, logger, context)
         {
-            _context = context;
-            _logger = logger;            
+           // _context = context;
+          //  _logger = logger;            
         }
         /// <summary> 存入資料 </summary>
         /// <param name="para"></param>
         /// <returns></returns>        
         public async Task<IEnumerable<QuoteInfoDto>> QueryAllQuoteInfo()
         {
-            IEnumerable<QuoteInfoDto> result;
-            string sql = @"
-                    SELECT * FROM stock_info.quote_info qi where date='20241120';
-                ";
-            using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+            try
             {
-                await sqlConnection.OpenAsync();
-                var temp = await sqlConnection.QueryAsync<QuoteInfoDto>(sql);
-                result = temp;
-                Console.WriteLine("result" + result.Count());             
+                IEnumerable<QuoteInfoDto> result;
+                string sql = @"
+                    SELECT * FROM stock_info.quote_info qi LIMIT 200;
+                ";
+                using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+                {
+                    await sqlConnection.OpenAsync();
+                    var temp = await sqlConnection.QueryAsync<QuoteInfoDto>(sql);
+                    result = temp;
+                    Console.WriteLine("result" + result.Count());
+                }
+                return result;
             }
-            return result;
-        }
+            catch (Exception e)
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                throw;
+            }
+        }       
+       
         public async Task<IEnumerable<QuoteInfoDto>> QueryQuoteInfoByDate(string theDate)
         {
             try
@@ -69,7 +82,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
         public async Task<IEnumerable<ForeignBuySellDto>> QueryForeignBuySellByDate(string theDate)
@@ -84,8 +97,8 @@ namespace ZERO.Repository
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
                     await sqlConnection.OpenAsync();
-                    var temp = await sqlConnection.QueryAsync<ForeignBuySell>(sql, new { theDate = theDate });
-                    result = temp.ToList().ConvertAll<ForeignBuySellDto>(q => new ForeignBuySellDto(q));
+                    var temp = await sqlConnection.QueryAsync<ForeignBuySellDto>(sql, new { theDate = theDate });
+                    result = temp.ToList();
                 }
                 return result;
             }
@@ -94,7 +107,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -110,8 +123,8 @@ namespace ZERO.Repository
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
                     await sqlConnection.OpenAsync();
-                    var temp = await sqlConnection.QueryAsync<DealerBuySell>(sql, new { theDate = theDate });
-                    result = temp.ToList().ConvertAll<DealerBuySellDto>(q => new DealerBuySellDto(q));
+                    var temp = await sqlConnection.QueryAsync<DealerBuySellDto>(sql, new { theDate = theDate });
+                    result = temp.ToList();
                 }
                 return result;
             }
@@ -120,7 +133,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -136,8 +149,8 @@ namespace ZERO.Repository
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                 {
                     await sqlConnection.OpenAsync();
-                    var temp = await sqlConnection.QueryAsync<TrustBuySell>(sql, new { theDate = theDate });
-                    result = temp.ToList().ConvertAll<TrustBuySellDto>(q => new TrustBuySellDto(q));
+                    var temp = await sqlConnection.QueryAsync<TrustBuySellDto>(sql, new { theDate = theDate });
+                    result = temp.ToList();
                 }
                 return result;
             }
@@ -146,9 +159,54 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
+        public async Task<TwTradeDayDto> InsertOrUpdateTwTradeDayDto(TwTradeDayDto dto) 
+        {
+            try 
+            {
+                IEnumerable<TwTradeDayDto> result;
+                string sql = @"
+                    select * from stock_info.tw_trade_day ttd
+                    where ttd.date = @theDate;
+                ";
+                using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
+                {
+                    await sqlConnection.OpenAsync();
+                    var temp = await sqlConnection.QueryAsync<TwTradeDayDto>(sql, new { theDate = dto.date });
+                    result = temp.ToList();
+
+                    if (result.Count() == 0)
+                    {
+                        string insertSql = @"
+                        INSERT INTO stock_info.tw_trade_day (date, unixTimestamp) 
+                        VALUES (@date, @unixTimestamp);";
+                       
+                        var tempA = await sqlConnection.QueryAsync<TwTradeDayDto>(insertSql, dto);
+                       
+                    }
+                    else
+                    {
+                        string updateSql = @"
+                        UPDATE stock_info.tw_trade_day 
+                        SET unixTimestamp = @unixTimestamp
+                        WHERE date = @date;  ";                   
+                        var tempB = await sqlConnection.QueryAsync<TwTradeDayDto>(updateSql, dto);                       
+                    }
+                }
+                
+                
+                return dto;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
+                throw;
+            }
+}
 
         public async Task<QuoteInfoDto> InsertQuoteInfo(QuoteInfoDto dto) 
         {
@@ -174,7 +232,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
         public async Task<QuoteInfoDto> UpdateQuoteInfo(QuoteInfoDto dto) 
@@ -183,9 +241,9 @@ namespace ZERO.Repository
             {
                 QuoteInfoDto result;
                 string sql = @"
-                    update stock_info.quote_info 
-                    set open = @open, high = @high, low = @low, close = @close, volume = @volume, millionAmount = @millionAmount, unixTimestamp = @unixTimestamp
-                    where id = @id and date = @date;                    
+                    UPDATE stock_info.quote_info 
+                    SET open = @open, high = @high, low = @low, close = @close, volume = @volume, millionAmount = @millionAmount, unixTimestamp = @unixTimestamp
+                    WHERE id = @id AND date = @date;                    
                 ";         
 
                 using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
@@ -202,7 +260,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -253,7 +311,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -304,7 +362,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -355,7 +413,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -406,28 +464,96 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
         public async Task<List<VolumeDataDto>> UpdateListVolumeData(List<VolumeDataDto> dtos)
         {
             try
-            {                   
+            {  
+                
                 string updateSql = @"
-                    update stock_info.quote_info 
-                    set buyAmount = @buyAmount, sellAmount = @sellAmount, sharesVolume = @sharesVolume
-                    where id = @stockNo and date = @theDate;                    
+                    UPDATE stock_info.quote_info 
+                    SET buyAmount = @buyAmount, sellAmount = @sellAmount, sharesVolume = @sharesVolume,
+                        amplitude = @amplitude, fluctuation = @fluctuation, sharesRate = @sharesRate
+                    WHERE id = @stockNo and date = @theDate;                    
                 ";
+
+                string tradeDaySql = @"
+                    SELECT * FROM stock_info.tw_trade_day WHERE date <= @theDate ORDER BY date DESC LIMIT 2;";
+
+                string queryQuoteInfoSql = @"
+                    SELECT * FROM stock_info.quote_info 
+                    WHERE date <= @dayOne AND date >= @dayTwo
+                    ORDER BY date DESC";
+                
                
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     using (var sqlConnection = new MySqlConnection(_connectStringStockInfo))
                     {
                         await sqlConnection.OpenAsync();
+                        string date = dtos[0].theDate;
+                        var twTradeDay = (await sqlConnection.QueryAsync<TwTradeDayDto>(tradeDaySql, new { theDate = dtos[0].theDate })).ToList();
+                        IEnumerable<QuoteInfoDto> yesterdayQuoteInfoList = await sqlConnection.QueryAsync<QuoteInfoDto>(queryQuoteInfoSql, new { dayOne = twTradeDay[0].date, dayTwo = twTradeDay[1].date });
+                        Dictionary<string, List<QuoteInfoDto>> stockDictionary = new Dictionary<string, List<QuoteInfoDto>>() { };
+                        List<QuoteInfoDto> dicResult;
+                        foreach (var dto in yesterdayQuoteInfoList) 
+                        {
+                            if (stockDictionary.TryGetValue(dto.id, out dicResult)) 
+                            {
+                                //dicResult.Add(dto);
+                                //stockDictionary.Remove(dto.id);
+                                dicResult.Add(dto);
+                                //stockDictionary[dto.id].Add(dto);
+                            }
+                            else 
+                            {
+                                List<QuoteInfoDto> temp = new List<QuoteInfoDto>();
+                                temp.Add(dto);
+                                stockDictionary.Add(dto.id, temp);
+                            }                                
+                        }
+                        
                         foreach (var dto in dtos)
-                        {        
-                            await sqlConnection.ExecuteAsync(updateSql, dto);
+                        {                            
+                            if (stockDictionary.TryGetValue(dto.stockNo, out dicResult)) 
+                            {
+                                if (dicResult.Count() == 2)
+                                {
+                                    var today = stockDictionary[dto.stockNo][0];
+                                    var yesterday = stockDictionary[dto.stockNo][1];
+                                    var fluctuation = (today.close - yesterday.close) / yesterday.close * 100f;
+                                    var amplitude = (today.high - today.low) / yesterday.close * 100f;
+                                    float sharesRate = 0f;
+                                    if (dto.sharesVolume != 0 && today.volume != 0)
+                                    {
+                                        sharesRate = (float)dto.sharesVolume / (float)today.volume * 100f;
+                                    }
+                                    dto.fluctuation = fluctuation;
+                                    dto.sharesRate = sharesRate;
+                                    dto.amplitude = amplitude;
+                                    await sqlConnection.ExecuteAsync(updateSql, dto);
+                                   /* if (dto.stockNo == "3211") 
+                                    {
+                                        Console.WriteLine("fluctuation" + fluctuation);
+                                        Console.WriteLine("sharesRate" + sharesRate);
+                                        Console.WriteLine("amplitude" + amplitude);
+                                        Console.WriteLine(JsonConvert.SerializeObject(dto));
+                                        Console.WriteLine("today");
+                                        Console.WriteLine(JsonConvert.SerializeObject(today));
+                                        Console.WriteLine("yesterday");
+                                        Console.WriteLine(JsonConvert.SerializeObject(yesterday));
+                                    }*/
+                                }
+                                else 
+                                {
+                                    await sqlConnection.ExecuteAsync(updateSql, dto);
+                                }
+                            }
+
+
                         }
                     }
                     scope.Complete();
@@ -439,7 +565,7 @@ namespace ZERO.Repository
                 _logger.LogError($"錯誤來源 : {e.StackTrace}");
                 // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
                 _logger.LogError($"錯誤訊息： {e.Message}");
-                return null;
+                throw;
             }
         }
 
@@ -549,6 +675,9 @@ namespace ZERO.Repository
             }
             catch (Exception e) 
             {
+                _logger.LogError($"錯誤來源 : {e.StackTrace}");
+                // _logger.LogError($"傳入參數 : {JsonConvert.SerializeObject(para)}");
+                _logger.LogError($"錯誤訊息： {e.Message}");
                 throw;
             }
         }
